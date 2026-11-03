@@ -31,7 +31,10 @@ function AdminShell({ sidebarOpen, setSidebarOpen }) {
               <div className="rounded-xl bg-red-50 border border-red-100 p-6 text-red-700">
                 <p className="font-bold">Could not load data</p>
                 <p className="text-sm mt-1">{error}</p>
-                <p className="text-sm mt-2">Ensure the backend is running on port 5000.</p>
+                <p className="text-sm mt-2">
+                  Ensure the API is reachable (locally: backend on port 5000/5001, or use{' '}
+                  <code className="text-xs">vercel dev</code>).
+                </p>
               </div>
             ) : (
               <Outlet />

@@ -1,4 +1,7 @@
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// Production (Vercel Services): leave VITE_API_URL unset so the browser calls
+// same-origin `/api/*`, routed to the internal backend service via vercel.json.
+// No service binding is required for browser fetch — bindings are for server-side calls.
+const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
 async function parseResponse(response) {
   const data = await response.json().catch(() => ({}));
