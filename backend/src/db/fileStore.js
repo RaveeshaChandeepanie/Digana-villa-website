@@ -4,7 +4,15 @@ import { fileURLToPath } from 'url';
 import { getDefaultDatabase } from './seed.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_PATH = path.join(__dirname, '../../data/db.json');
+
+function resolveDbPath() {
+  if (process.env.VERCEL) {
+    return path.join('/tmp', 'digana-db.json');
+  }
+  return path.join(__dirname, '../../data/db.json');
+}
+
+const DB_PATH = resolveDbPath();
 
 let writeQueue = Promise.resolve();
 

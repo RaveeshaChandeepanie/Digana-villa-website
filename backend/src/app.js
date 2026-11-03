@@ -10,7 +10,7 @@ import { corsOrigins } from './config/security.js';
 
 const app = express();
 
-if (process.env.TRUST_PROXY === '1') {
+if (process.env.TRUST_PROXY === '1' || process.env.VERCEL) {
   app.set('trust proxy', 1);
 }
 

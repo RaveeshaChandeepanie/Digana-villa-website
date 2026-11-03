@@ -48,11 +48,30 @@ function resolveAdminEmail() {
 }
 
 function resolveCorsOrigins() {
+  const origins = new Set();
   const raw = process.env.CORS_ORIGIN?.trim();
   if (raw) {
-    return raw.split(',').map((s) => s.trim()).filter(Boolean);
+    raw
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .forEach((origin) => origins.add(origin));
   }
-  return ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
+  if (process.env.VERCEL_URL) {
+    origins.add(`https://${process.env.VERCEL_URL}`);
+  }
+  if (process.env.VERCEL_BRANCH_URL) {
+    origins.add(`https://${process.env.VERCEL_BRANCH_URL}`);
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    origins.add(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
+  }
+
+  if (origins.size === 0) {
+    return ['http://localhost:5173', 'http://127.0.0.1:5173'];
+  }
+  return [...origins];
 }
 
 export const jwtSecret = resolveJwtSecret();
